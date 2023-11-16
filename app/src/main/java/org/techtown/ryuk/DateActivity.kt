@@ -9,10 +9,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import org.techtown.ryuk.databinding.ActivityDateBinding
 import org.techtown.ryuk.databinding.TodoBinding
 import org.techtown.ryuk.interfaces.MissionApiService
-import org.techtown.ryuk.models.JsonAddMission
-import org.techtown.ryuk.models.JsonBoolean
-import org.techtown.ryuk.models.JsonGetMissions
-import org.techtown.ryuk.models.Mission
+import org.techtown.ryuk.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,8 +45,8 @@ class DateActivity : AppCompatActivity() {
         }
         fun getTodos() {
             // uid
-            val call = missionApiService.getMissions(1, dateFormat.format(Date(System.currentTimeMillis())))
-            call.enqueue(object: Callback<JsonGetMissions> {
+            val call = selectedDate?.let { missionApiService.getMissions(1, it) }
+            call?.enqueue(object: Callback<JsonGetMissions> {
                 override fun onResponse(
                     call: Call<JsonGetMissions>,
                     response: Response<JsonGetMissions>
@@ -61,6 +58,27 @@ class DateActivity : AppCompatActivity() {
                                 paintMission(mission)
                             }
                         }
+                        val callStat = selectedDate?.let { missionApiService.dailyStat(1, it) }
+                        callStat?.enqueue(object: Callback<JsonDailyStat> {
+                            override fun onResponse(
+                                call: Call<JsonDailyStat>,
+                                response: Response<JsonDailyStat>
+                            ) {
+                                if (response.isSuccessful) {
+                                    val bodyStat = response.body()
+                                    bodyStat?.data?.percentage?.let {
+                                        binding.progress.setProgress(
+                                            it
+                                        )
+                                    }
+                                }
+                            }
+
+                            override fun onFailure(call: Call<JsonDailyStat>, t: Throwable) {
+                                t.printStackTrace()
+                                Toast.makeText(applicationContext, "Call Failed", Toast.LENGTH_SHORT).show()
+                            }
+                        })
                     }
                 }
                 override fun onFailure(call: Call<JsonGetMissions>, t: Throwable) {
@@ -68,9 +86,9 @@ class DateActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Call Failed", Toast.LENGTH_SHORT).show()
                 }
             })
-            // set progress bar
         }
-        binding.text.text = selectedDate
+        val date = selectedDate?.split("_")
+        binding.text.text = date!![0] +"년 "+ date!![1]+"월 "+date[2]!!+"일"
         getTodos()
     }
 }

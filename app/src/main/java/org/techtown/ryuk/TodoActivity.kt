@@ -86,7 +86,6 @@ class TodoActivity : Activity() {
             task.setOnClickListener {
                 completeMission -= mission.is_success
                 mission.is_success = 1 - mission.is_success
-                Toast.makeText(applicationContext, mission.is_success.toString(), Toast.LENGTH_SHORT).show()
                 completeMission += mission.is_success
                 val call = missionApiService.setSuccess(mission.user_mission_id)
                 call.enqueue(object: Callback<JsonBoolean> {
@@ -94,9 +93,7 @@ class TodoActivity : Activity() {
                         call: Call<JsonBoolean>,
                         response: Response<JsonBoolean>
                     ) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(applicationContext, "Call Success", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                     override fun onFailure(call: Call<JsonBoolean>, t: Throwable) {
                         t.printStackTrace()
@@ -127,7 +124,6 @@ class TodoActivity : Activity() {
                     response: Response<JsonAddMission>
                 ) {
                     if (response.isSuccessful) {
-                        Toast.makeText(applicationContext, "Mission Added Successfully", Toast.LENGTH_SHORT).show()
                         val body = response.body()
                         body?.mission?.let {
                             val m = Mission(it.user_mission_id, it.is_success, newTask, type, "check", 0)
