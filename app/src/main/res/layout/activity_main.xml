@@ -42,6 +42,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ToDo List"
-                android:id="@+id/btnRtn" />
+                android:id="@+id/todoBtn" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Page"
+                android:id="@+id/mypageBtn" />
         </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

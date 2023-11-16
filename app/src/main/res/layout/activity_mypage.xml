@@ -6,17 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MypageActivity">
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="216dp"
-        android:addStatesFromChildren="false"
-        android:background="#FFFFFF"
-        android:backgroundTint="#EBF6DF"
-        android:backgroundTintMode="src_over"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="  돌아보기"
+            android:textSize="40dp"
+            android:gravity="center_vertical"
+            android:layout_weight="2"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"/>
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendarView"
+            android:layout_weight="15"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:mcv_showOtherDates="all"
+            app:mcv_selectionColor="#00F"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

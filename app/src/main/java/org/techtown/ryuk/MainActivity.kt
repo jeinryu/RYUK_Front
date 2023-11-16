@@ -39,18 +39,17 @@ class MainActivity : AppCompatActivity() {
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 //        navView.setupWithNavController(navController)
 
-        var plus : Button
         var layout: LinearLayout = findViewById(R.id.layout)
-//        plus = findViewById(R.id.plus)
-//        plus.setOnTouchListener { view, motionEvent ->
-//            var task = CheckBox(this)
-//            task.text = "새로운 할일"
-//            layout.addView(task)
-//            true
-//        }
-        var rtn : Button = findViewById(R.id.btnRtn)
-        rtn.setOnClickListener {
+
+        var todoBtn : Button = findViewById(R.id.todoBtn)
+        todoBtn.setOnClickListener {
             var intent = Intent(applicationContext, TodoActivity::class.java)
+            startActivity(intent)
+        }
+
+        var mypageBtn : Button = findViewById(R.id.mypageBtn)
+        mypageBtn.setOnClickListener {
+            var intent = Intent(applicationContext, MypageActivity::class.java)
             startActivity(intent)
         }
     }
