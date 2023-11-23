@@ -22,6 +22,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -30,7 +31,6 @@ class TodoActivity : Activity() {
 
     val missionApiService = retrofit.create(MissionApiService::class.java)
     private lateinit var binding: TodoBinding
-    // var missions = mutableListOf<Mission>() datastore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = TodoBinding.inflate(layoutInflater)
@@ -40,6 +40,11 @@ class TodoActivity : Activity() {
         val dateFormat = SimpleDateFormat("yyyy_MM_dd")
         val containers = mapOf("매일하력" to binding.cont1,"시도해력" to binding.cont2,"마음봄력" to binding.cont3,"유유자력" to binding.cont4,"레벨업력" to binding.cont5)
         val containersPersonal = mapOf("매일하력" to binding.cont1Personal,"시도해력" to binding.cont2Personal,"마음봄력" to binding.cont3Personal,"유유자력" to binding.cont4Personal,"레벨업력" to binding.cont5Personal)
+        val dateNow = dateFormat.format(Date(System.currentTimeMillis()))
+        binding.textToday.text = dateNow?.replace("_", "/")
+        fun setProgress() {
+            if (totalMission==0) binding.progress.setProgress(0, true) else binding.progress.setProgress(completeMission*100/totalMission, true)
+        }
         fun paintMission(mission: Mission) {
             val task = CheckBox(this)
             task.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -65,7 +70,7 @@ class TodoActivity : Activity() {
                     containersPersonal[mission.mission_type]?.removeView(layout)
                     totalMission--
                     completeMission -= mission.is_success
-                    binding.progress.setProgress(completeMission*100/totalMission, true)
+                    setProgress()
                     val call = missionApiService.deleteMission(mission.user_mission_id)
                     call.enqueue(object: Callback<JsonBoolean> {
                         override fun onResponse(
@@ -82,7 +87,7 @@ class TodoActivity : Activity() {
             } else {
                 containers[mission.mission_type]?.addView(task)
             }
-            binding.progress.setProgress(completeMission*100/totalMission, true)
+            setProgress()
             task.setOnClickListener {
                 completeMission -= mission.is_success
                 mission.is_success = 1 - mission.is_success
@@ -100,7 +105,7 @@ class TodoActivity : Activity() {
                         Toast.makeText(applicationContext, "Call Failed", Toast.LENGTH_SHORT).show()
                     }
                 })
-                binding.progress.setProgress(completeMission*100/totalMission, true)
+                setProgress()
             }
         }
         val spinner: Spinner = binding.spinner
@@ -117,7 +122,7 @@ class TodoActivity : Activity() {
             var type: String = spinner.selectedItem.toString()
             binding.newTaskContent.text.clear()
             // uid
-            val call = missionApiService.addMission(newTask, type, dateFormat.format(Date(System.currentTimeMillis())), 1)
+            val call = missionApiService.addMission(newTask, type, dateNow, 1)
             call.enqueue(object: Callback<JsonAddMission> {
                 override fun onResponse(
                     call: Call<JsonAddMission>,
@@ -142,7 +147,7 @@ class TodoActivity : Activity() {
         // 관리자 계정으로부터 todoList 받아오기
         fun getTodos() {
             // uid
-            val call = missionApiService.getMissions(1, dateFormat.format(Date(System.currentTimeMillis())))
+            val call = missionApiService.getMissions(1, dateNow)
             call.enqueue(object: Callback<JsonGetMissions> {
                 override fun onResponse(
                     call: Call<JsonGetMissions>,
