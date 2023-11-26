@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -53,7 +54,6 @@ class TodoActivity : Activity() {
 
         setupUI(dateNow, userId, containers, containersPersonal)
         getTodos(userId, dateNow, containers, containersPersonal)
-
         setupBottomNavigationView()
     }
 
@@ -136,6 +136,7 @@ class TodoActivity : Activity() {
                         val mission = Mission(it.user_mission_id, it.is_success, title, type, "check", 0)
                         paintMission(mission, containers, containersPersonal)
                     }
+                    updateProgress()
                 }
             }
 
@@ -144,6 +145,7 @@ class TodoActivity : Activity() {
                 Toast.makeText(applicationContext, "Call Failed", Toast.LENGTH_SHORT).show()
             }
         })
+
     }
 
     private fun paintMission(mission: Mission, containers: Map<String, LinearLayoutCompat>, containersPersonal: Map<String, LinearLayoutCompat>) {
@@ -164,8 +166,10 @@ class TodoActivity : Activity() {
             delete.setOnClickListener {
                 deleteMission(mission, layout, containersPersonal)
             }
+            containersPersonal[mission.mission_type]?.visibility = View.VISIBLE
             containersPersonal[mission.mission_type]?.addView(layout)
         } else {
+            containers[mission.mission_type]?.visibility = View.VISIBLE
             containers[mission.mission_type]?.addView(task)
         }
         task.setOnClickListener {
@@ -217,6 +221,7 @@ class TodoActivity : Activity() {
                     response.body()?.mission?.forEach { mission ->
                         paintMission(mission, containers, containersPersonal)
                     }
+                    updateProgress()
                 }
             }
 
