@@ -41,10 +41,11 @@ class MypageActivity : AppCompatActivity() {
         val calendarView: MaterialCalendarView = binding.calendarView
         calendarView.setOnDateChangedListener { _, date, _ ->
             val selectedDate = dateFormat.format(date.date)
-            val intent = Intent(this, DateActivity::class.java).apply {
+            val intent = Intent(applicationContext, DateActivity::class.java).apply {
                 putExtra("selectedDate", selectedDate)
             }
             startActivity(intent)
+            finish()
         }
 
         val today = CalendarDay.today()
@@ -121,6 +122,7 @@ class MypageActivity : AppCompatActivity() {
             override fun decorate(view: DayViewFacade?) {
                 view?.setDaysDisabled(false)
                 val color = when (stat) {
+                    0 -> "#FFFFFF"
                     in 0..25 -> "#EFFDCC"
                     in 25..50 -> "#DDFD8D"
                     in 50..75 -> "#BFF055"

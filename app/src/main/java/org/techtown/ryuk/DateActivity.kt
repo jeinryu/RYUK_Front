@@ -27,10 +27,7 @@ class DateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDateBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupBottomNavigationView()
-
-
 
         val dateFormat = SimpleDateFormat("yyyy_MM_dd")
         val selectedDate = intent.getStringExtra("selectedDate")
@@ -112,7 +109,7 @@ class DateActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_mypage -> {
-                    startActivity(Intent(this, MypageActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false

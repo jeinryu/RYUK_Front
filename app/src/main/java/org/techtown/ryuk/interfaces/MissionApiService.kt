@@ -38,7 +38,7 @@ interface MissionApiService {
 
     @GET("stats/userMonth")
     fun monthlyStat(
-        @Query("user_id") uid: Int,
+        @Query("userId") uid: Int,
         @Query("date") date: String
     ): Call<JsonMonthlyStat>
 }
