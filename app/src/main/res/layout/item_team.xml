@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_viewholder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="팀 이름"
+            android:textSize="24sp"
+            android:textColor="#333333" />
+
+        <TextView
+            android:id="@+id/tv_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="카테고리"
+            android:textSize="18sp"
+            android:textColor="#666666" />
+
+        <TextView
+            android:id="@+id/tv_introduce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="팀 소개"
+            android:textSize="18sp"
+            android:textColor="#666666" />
+
+        <TextView
+            android:id="@+id/tv_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="링크"
+            android:textSize="18sp"
+            android:textColor="#666666" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_number"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="팀원 수"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="#666666" />-->
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnRegisterTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="가입하기"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#BFF055" />
+</LinearLayout>
