@@ -15,37 +15,36 @@
         android:theme="@style/Theme.Ryuk"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
-            android:name=".DateActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".MypageActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".MainActivity"
+            android:name=".TodoActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
-        <activity
-            android:name=".TodoActivity"
-            android:label="Todo 액티비티" />
-    </application>
 
+        <activity
+            android:name=".DateActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TeamInfoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".TeamSearchActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MypageActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
+    </application>
 </manifest>

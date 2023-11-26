@@ -1,33 +1,55 @@
 package org.techtown.ryuk
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.LinearLayoutCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.techtown.ryuk.databinding.ActivityDateBinding
-import org.techtown.ryuk.databinding.TodoBinding
 import org.techtown.ryuk.interfaces.MissionApiService
+import org.techtown.ryuk.interfaces.UserApiService
 import org.techtown.ryuk.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.*
+import android.util.Log
 
 class DateActivity : AppCompatActivity() {
-    val retrofit = RetrofitClient.getInstance()
-    val missionApiService = retrofit.create(MissionApiService::class.java)
+    private val retrofit = RetrofitClient.getInstance()
+    private val missionApiService = retrofit.create(MissionApiService::class.java)
     private lateinit var binding: ActivityDateBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDateBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupBottomNavigationView()
+
         val dateFormat = SimpleDateFormat("yyyy_MM_dd")
         val selectedDate = intent.getStringExtra("selectedDate")
-        val containers = mapOf("매일하력" to binding.cont1,"시도해력" to binding.cont2,"마음봄력" to binding.cont3,"유유자력" to binding.cont4,"레벨업력" to binding.cont5)
-        val containersPersonal = mapOf("매일하력" to binding.cont1Personal,"시도해력" to binding.cont2Personal,"마음봄력" to binding.cont3Personal,"유유자력" to binding.cont4Personal,"레벨업력" to binding.cont5Personal)
+        val userId = getUserIdFromSharedPreferences()
+
+        val containers = mapOf(
+            "매일하력" to binding.cont1,
+            "시도해력" to binding.cont2,
+            "마음봄력" to binding.cont3,
+            "유유자력" to binding.cont4,
+            "레벨업력" to binding.cont5
+        )
+
+        val containersPersonal = mapOf(
+            "매일하력" to binding.cont1Personal,
+            "시도해력" to binding.cont2Personal,
+            "마음봄력" to binding.cont3Personal,
+            "유유자력" to binding.cont4Personal,
+            "레벨업력" to binding.cont5Personal
+        )
+
         fun paintMission(mission: Mission) {
             val task = CheckBox(this)
             task.layoutParams = LinearLayoutCompat.LayoutParams(
@@ -35,7 +57,7 @@ class DateActivity : AppCompatActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
             task.text = mission.title
-            task.isChecked = mission.is_success==1
+            task.isChecked = mission.is_success == 1
             task.isClickable = false
             if (mission.from_team == 0) {
                 containersPersonal[mission.mission_type]?.addView(task)
@@ -43,52 +65,79 @@ class DateActivity : AppCompatActivity() {
                 containers[mission.mission_type]?.addView(task)
             }
         }
+
         fun getTodos() {
-            // uid
-            val call = selectedDate?.let { missionApiService.getMissions(1, it) }
-            call?.enqueue(object: Callback<JsonGetMissions> {
+            val call = selectedDate?.let { missionApiService.getMissions(userId, it) }
+            call?.enqueue(object : Callback<JsonGetMissions> {
                 override fun onResponse(
                     call: Call<JsonGetMissions>,
                     response: Response<JsonGetMissions>
                 ) {
                     if (response.isSuccessful) {
-                        val body = response.body()
-                        body?.mission?.let {
-                            for (mission in it) {
-                                paintMission(mission)
-                            }
+                        response.body()?.mission?.forEach { mission ->
+                            paintMission(mission)
                         }
-                        val callStat = selectedDate?.let { missionApiService.dailyStat(1, it) }
-                        callStat?.enqueue(object: Callback<JsonDailyStat> {
-                            override fun onResponse(
-                                call: Call<JsonDailyStat>,
-                                response: Response<JsonDailyStat>
-                            ) {
-                                if (response.isSuccessful) {
-                                    val bodyStat = response.body()
-                                    bodyStat?.data?.percentage?.let {
-                                        binding.progress.setProgress(
-                                            it
-                                        )
-                                    }
-                                }
-                            }
-
-                            override fun onFailure(call: Call<JsonDailyStat>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(applicationContext, "Call Failed", Toast.LENGTH_SHORT).show()
-                            }
-                        })
                     }
                 }
+
                 override fun onFailure(call: Call<JsonGetMissions>, t: Throwable) {
                     t.printStackTrace()
                     Toast.makeText(applicationContext, "Call Failed", Toast.LENGTH_SHORT).show()
                 }
             })
         }
+
         val date = selectedDate?.split("_")
-        binding.text.text = date!![0] +"년 "+ date!![1]+"월 "+date[2]!!+"일"
+        binding.text.text = "${date!![0]}년 ${date[1]}월 ${date[2]}일"
         getTodos()
+    }
+
+    private fun setupBottomNavigationView() {
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val userId = getUserIdFromSharedPreferences()
+
+        navView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_todo -> {
+                    startActivity(Intent(this, TodoActivity::class.java))
+                    true
+                }
+                R.id.navigation_team -> {
+                    checkUserTeamStatus(userId)
+                    true
+                }
+                R.id.navigation_mypage -> {
+                    startActivity(Intent(this, MypageActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun checkUserTeamStatus(userId: Int) {
+        val apiService = RetrofitClient.getInstance().create(UserApiService::class.java)
+
+        apiService.checkUserTeam(userId).enqueue(object : Callback<TeamCheckResponse> {
+            override fun onResponse(call: Call<TeamCheckResponse>, response: Response<TeamCheckResponse>) {
+                if (response.isSuccessful && response.body()?.status == "ok") {
+                    // 팀이 있으면 TeamInfoActivity로 이동
+                    startActivity(Intent(this@DateActivity, TeamInfoActivity::class.java))
+                } else {
+                    // 팀이 없으면 TeamSearchActivity로 이동
+                    startActivity(Intent(this@DateActivity, TeamSearchActivity::class.java))
+                }
+            }
+
+            override fun onFailure(call: Call<TeamCheckResponse>, t: Throwable) {
+                // 네트워크 오류 또는 기타 오류 처리
+                Log.e("TeamSearchActivity", "Error: ${t.message}")
+            }
+        })
+    }
+
+    private fun getUserIdFromSharedPreferences(): Int {
+        val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        return sharedPreferences.getInt("user_id", 2) // Default value -1 if not found
     }
 }

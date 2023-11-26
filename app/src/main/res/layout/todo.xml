@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -19,15 +20,29 @@
             android:progress="0"
             android:id="@+id/progress"
             />
-        <TextView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="  오늘의 할일"
-            android:textSize="40dp"
-            android:gravity="center_vertical"
             android:layout_weight="2"
-            android:layout_marginBottom="10dp"
-            android:textStyle="bold"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="오늘의 할일"
+                android:textSize="35dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/textToday"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="15dp"
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -130,7 +145,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:text="개별 미션"
+                        android:text="자율 미션"
                         android:textSize="25dp"
                         android:gravity="center_vertical"
                         android:layout_weight="2"
@@ -204,6 +219,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -238,6 +254,13 @@
                 android:src="@drawable/ic_baseline_add_24"
                 tools:ignore="SpeakableTextPresentCheck" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:menu="@menu/bottom_nav_menu" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

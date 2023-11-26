@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">ryuk</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string-array name="type_list">
         <item>매일하력</item>
         <item>시도해력</item>
@@ -10,4 +7,9 @@
         <item>유유자력</item>
         <item>레벨업력</item>
     </string-array>
+    <string name="refresh">새로고침</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_todo">Todo</string>
+    <string name="title_team">Team</string>
+    <string name="title_mypage">Mypage</string>
 </resources>
