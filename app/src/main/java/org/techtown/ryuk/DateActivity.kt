@@ -109,7 +109,7 @@ class DateActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_mypage -> {
-                    finish()
+                    // finish()
                     true
                 }
                 else -> false

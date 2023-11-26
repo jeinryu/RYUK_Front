@@ -45,7 +45,6 @@ class MypageActivity : AppCompatActivity() {
                 putExtra("selectedDate", selectedDate)
             }
             startActivity(intent)
-            finish()
         }
 
         val today = CalendarDay.today()

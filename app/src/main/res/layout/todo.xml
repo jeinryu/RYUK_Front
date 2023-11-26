@@ -1,220 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
         android:orientation="vertical"
-        android:layout_weight="1"
         android:padding="30dp">
+
         <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            style="?android:attr/progressBarStyleHorizontal"
             android:max="100"
-            android:progress="0"
-            android:id="@+id/progress"
-            />
+            android:progress="0" />
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="오늘의 할일"
-                android:textSize="35dp"
-                android:gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp"
-                android:textStyle="bold"/>
+                android:gravity="center_vertical"
+                android:text="오늘의 할일"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
             <TextView
-                android:layout_width="wrap_content"
                 android:id="@+id/textToday"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:textSize="15dp"
-                />
+                android:textSize="15dp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="16">
+            android:layout_weight="16"
+            android:orientation="vertical">
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/shape"
-                    android:padding="15dp"
                     android:layout_marginBottom="15dp"
-                    android:id="@+id/container">
+                    android:background="@drawable/shape"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
                         android:text="팀별 미션"
                         android:textSize="25dp"
-                        android:gravity="center_vertical"
-                        android:layout_weight="2"
-                        android:layout_marginLeft="10dp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont1">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="매일하력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="매일하력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont2">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="시도해력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="시도해력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont3">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="마음봄력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="마음봄력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont4">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="유유자력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="유유자력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont5">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="레벨업력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="레벨업력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/containerPersonal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@drawable/shape"
-                    android:padding="15dp"
-                    android:id="@+id/containerPersonal">
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
                         android:text="자율 미션"
                         android:textSize="25dp"
-                        android:gravity="center_vertical"
-                        android:layout_weight="2"
-                        android:layout_marginLeft="10dp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont1Personal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont1Personal">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="매일하력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="매일하력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont2Personal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont2Personal">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="시도해력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="시도해력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont3Personal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont3Personal">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="마음봄력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="마음봄력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont4Personal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont4Personal">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="유유자력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="유유자력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cont5Personal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont5Personal">
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="레벨업력"
                             android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:text="레벨업력"/>
+                            android:textStyle="bold" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -227,22 +266,23 @@
             android:orientation="horizontal">
 
             <Spinner
-                android:layout_gravity="center_vertical"
                 android:id="@+id/spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="7"
                 tools:ignore="SpeakableTextPresentCheck" />
+
             <EditText
-                android:layout_gravity="center_vertical"
+                android:id="@+id/newTaskContent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="8"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
+                android:hint="할 일을 입력하세요"
                 android:inputType="text"
-                android:id="@+id/newTaskContent"
-                android:hint="할 일을 입력하세요"/>
+                android:minWidth="48dp"
+                android:minHeight="48dp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/addTask"
@@ -254,13 +294,15 @@
                 android:src="@drawable/ic_baseline_add_24"
                 tools:ignore="SpeakableTextPresentCheck" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:menu="@menu/bottom_nav_menu" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+</androidx.constraintlayout.widget.ConstraintLayout>
