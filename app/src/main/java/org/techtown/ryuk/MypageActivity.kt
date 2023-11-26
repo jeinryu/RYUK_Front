@@ -66,6 +66,8 @@ class MypageActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Call Failed", Toast.LENGTH_SHORT).show()
             }
         })
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView.selectedItemId = R.id.navigation_mypage
     }
 
     private fun setupBottomNavigationView() {
@@ -95,12 +97,15 @@ class MypageActivity : AppCompatActivity() {
 
         apiService.checkUserTeam(userId).enqueue(object : Callback<TeamCheckResponse> {
             override fun onResponse(call: Call<TeamCheckResponse>, response: Response<TeamCheckResponse>) {
-                if (response.isSuccessful && response.body()?.status == "ok") {
-                    // 팀이 있으면 TeamInfoActivity로 이동
-                    startActivity(Intent(this@MypageActivity, TeamInfoActivity::class.java))
-                } else {
-                    // 팀이 없으면 TeamSearchActivity로 이동
-                    startActivity(Intent(this@MypageActivity, TeamSearchActivity::class.java))
+                if (response.isSuccessful) {
+                    val teamCheckResponse = response.body()
+                    if (teamCheckResponse != null && teamCheckResponse.data.teamId != 0) {
+                        // 팀이 있으면 TeamInfoActivity로 이동
+                        startActivity(Intent(this@MypageActivity, TeamInfoActivity::class.java))
+                    } else {
+                        // 팀이 없으면 TeamSearchActivity로 이동
+                        startActivity(Intent(this@MypageActivity, TeamSearchActivity::class.java))
+                    }
                 }
             }
 

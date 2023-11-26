@@ -33,6 +33,8 @@ class TeamSearchActivity : AppCompatActivity() {
         setupSearchView()
         loadTeams()
         setupBottomNavigationView()
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView.selectedItemId = R.id.navigation_team
     }
 
     private fun setupBottomNavigationView() {

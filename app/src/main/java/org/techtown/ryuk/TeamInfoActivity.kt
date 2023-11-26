@@ -40,11 +40,13 @@ class TeamInfoActivity : AppCompatActivity() {
         val userId = getUserIdFromSharedPreferences()
         fetchUserTeamDetails(userId)
         setupBottomNavigationView()
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView.selectedItemId = R.id.navigation_team
     }
 
     private fun getUserIdFromSharedPreferences(): Int {
         val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-        return sharedPreferences.getInt("user_id", 2) // Default to -1 if not found
+        return sharedPreferences.getInt("user_id", 53) // Default to -1 if not found
     }
 
     private fun fetchUserTeamDetails(userId: Int) {
@@ -105,13 +107,21 @@ class TeamInfoActivity : AppCompatActivity() {
     }
 
     private fun updateUIWithTeamDetails(teamDetails: Team) {
-        binding.teamName.text = teamDetails.name
-        binding.teamCategory.text = teamDetails.category
-        binding.teamIntroduce.text = teamDetails.introduce
-        binding.teamLink.text = teamDetails.link
-        binding.teamStart.text = teamDetails.startDay
-        binding.teamEnd.text = teamDetails.endDay
-        // You may format the dates if needed
+        val teamName = teamDetails.name // 예시 값
+        val teamCategory = teamDetails.category  // 예시 값
+        val teamIntroduce = teamDetails.introduce  // 예시 값
+        val teamLink = teamDetails.link  // 예시 값
+        val teamStart = teamDetails.startDay // 예시 값
+        val teamEnd = teamDetails.endDay// 예시 값
+
+        // 각 TextView에 팀 정보 설정
+        binding.teamName.text = "팀 이름 : $teamName"
+        binding.teamCategory.text = "카테고리 : $teamCategory"
+        binding.teamIntroduce.text = "팀 소개 : $teamIntroduce"
+        binding.teamLink.text = "링크 : $teamLink"
+        binding.teamStart.text = "시작 날짜 : $teamStart"
+        binding.teamEnd.text = "종료 날짜 : $teamEnd"
+
     }
 
     //... Rest of your Activity code
