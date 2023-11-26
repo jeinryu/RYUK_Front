@@ -131,7 +131,7 @@ class TeamSearchActivity : AppCompatActivity() {
 
     private fun getUserIdFromSharedPreferences(): Int {
         val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-        return sharedPreferences.getInt("user_id", 2) // Default value -1 if not found
+        return sharedPreferences.getInt("user_id", 1) // Default value -1 if not found
     }
 
     private fun filterList(query: String) {

@@ -19,7 +19,8 @@ data class User(
     @SerializedName("user_name") val userName: String,
     @SerializedName("nickname") val nickname: String,
     @SerializedName("email") val email: String,
-    @SerializedName("is_manager") val isManager: Boolean
+    @SerializedName("is_manager") val isManager: Int,
+    @SerializedName("team_id") val teamId: Int?
 )
 
 data class UserResponse(

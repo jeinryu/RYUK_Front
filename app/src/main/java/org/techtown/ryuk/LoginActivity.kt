@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         apiService.loginUser(loginId, password).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val loginResponse = response.body()
-                if (response.isSuccessful && loginResponse?.status == "ok" && loginResponse.userData != null) {
+                if (loginResponse?.status == "ok" && loginResponse.userData != null) {
                     // 로그인 성공 처리
                     val userId = loginResponse.userData.userId
                     storeUserId(userId)  // SharedPreferences에 userId 저장

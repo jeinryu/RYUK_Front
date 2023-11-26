@@ -46,7 +46,7 @@ class TeamInfoActivity : AppCompatActivity() {
 
     private fun getUserIdFromSharedPreferences(): Int {
         val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-        return sharedPreferences.getInt("user_id", 53) // Default to -1 if not found
+        return sharedPreferences.getInt("user_id", 2) // Default to -1 if not found
     }
 
     private fun fetchUserTeamDetails(userId: Int) {
@@ -115,7 +115,7 @@ class TeamInfoActivity : AppCompatActivity() {
         val teamEnd = teamDetails.endDay// 예시 값
 
         // 각 TextView에 팀 정보 설정
-        binding.teamName.text = "팀 이름 : $teamName"
+        binding.teamName.text = teamName
         binding.teamCategory.text = "카테고리 : $teamCategory"
         binding.teamIntroduce.text = "팀 소개 : $teamIntroduce"
         binding.teamLink.text = "링크 : $teamLink"

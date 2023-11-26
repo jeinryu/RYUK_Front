@@ -17,7 +17,7 @@ interface UserApiService {
     ): Call<LoginResponse>
 
     // 유저 정보 얻기
-    @GET("/user/info")
+    @GET("/user/getInfo")
     fun getUserInfo(
         @Query("userId") userId: Int
     ): Call<UserResponse>
