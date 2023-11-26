@@ -18,6 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 class TodoActivity : Activity() {
@@ -34,7 +35,7 @@ class TodoActivity : Activity() {
 
         val userId = getUserIdFromSharedPreferences()
         val dateFormat = SimpleDateFormat("yyyy_MM_dd")
-        val dateNow = dateFormat.format(Date(System.currentTimeMillis()))
+        val dateNow = LocalDate.now().toString().replace("-", "_")
         binding.textToday.text = dateNow.replace("_", "/")
 
         val containers = mapOf(

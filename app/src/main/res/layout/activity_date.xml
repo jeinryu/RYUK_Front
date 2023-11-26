@@ -65,7 +65,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont1">
+                        android:id="@+id/cont1"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -78,7 +79,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont2">
+                        android:id="@+id/cont2"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -91,7 +93,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont3">
+                        android:id="@+id/cont3"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -104,7 +107,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont4">
+                        android:id="@+id/cont4"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -117,7 +121,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont5">
+                        android:id="@+id/cont5"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -147,7 +152,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont1Personal">
+                        android:id="@+id/cont1Personal"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -160,7 +166,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont2Personal">
+                        android:id="@+id/cont2Personal"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -173,7 +180,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont3Personal">
+                        android:id="@+id/cont3Personal"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -186,7 +194,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont4Personal">
+                        android:id="@+id/cont4Personal"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -199,7 +208,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="10dp"
-                        android:id="@+id/cont5Personal">
+                        android:id="@+id/cont5Personal"
+                        android:visibility="gone">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

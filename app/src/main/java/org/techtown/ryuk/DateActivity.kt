@@ -17,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import android.util.Log
+import android.view.View
 
 class DateActivity : AppCompatActivity() {
     private val retrofit = RetrofitClient.getInstance()
@@ -60,8 +61,10 @@ class DateActivity : AppCompatActivity() {
             task.isClickable = false
             if (mission.from_team == 0) {
                 containersPersonal[mission.mission_type]?.addView(task)
+                containersPersonal[mission.mission_type]?.visibility = View.VISIBLE
             } else {
                 containers[mission.mission_type]?.addView(task)
+                containers[mission.mission_type]?.visibility = View.VISIBLE
             }
         }
 
