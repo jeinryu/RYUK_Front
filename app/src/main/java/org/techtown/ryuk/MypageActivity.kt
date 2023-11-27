@@ -97,15 +97,18 @@ class MypageActivity : AppCompatActivity() {
 
         apiService.checkUserTeam(userId).enqueue(object : Callback<TeamCheckResponse> {
             override fun onResponse(call: Call<TeamCheckResponse>, response: Response<TeamCheckResponse>) {
-                if (response.isSuccessful) {
-                    val teamCheckResponse = response.body()
-                    if (teamCheckResponse != null && teamCheckResponse.data.teamId != 0) {
+                val teamCheckResponse = response.body()
+                if (response.isSuccessful && teamCheckResponse != null) {
+                    if (teamCheckResponse.data.teamId != 0) {
                         // 팀이 있으면 TeamInfoActivity로 이동
                         startActivity(Intent(this@MypageActivity, TeamInfoActivity::class.java))
                     } else {
                         // 팀이 없으면 TeamSearchActivity로 이동
                         startActivity(Intent(this@MypageActivity, TeamSearchActivity::class.java))
                     }
+                } else {
+                    // 응답 실패 처리
+                    Log.e("TeamSearchActivity", "Response not successful")
                 }
             }
 

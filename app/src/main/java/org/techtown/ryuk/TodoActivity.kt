@@ -2,8 +2,6 @@ package org.techtown.ryuk
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -156,7 +154,6 @@ class TodoActivity : Activity() {
         task.layoutParams = LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         task.text = mission.title
         task.isChecked = mission.is_success == 1
-        // task.buttonTintList = ColorStateList.valueOf(Color.parseColor("#BFF055"))
         totalMission++
         completeMission += mission.is_success
         if (mission.from_team == 0) {
@@ -238,6 +235,5 @@ class TodoActivity : Activity() {
 
     private fun updateProgress() {
         if (totalMission == 0) binding.progress.setProgress(0, true) else binding.progress.setProgress(completeMission * 100 / totalMission, true)
-        binding.progressValue.text = completeMission.toString() + "/" + totalMission.toString()
     }
 }

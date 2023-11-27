@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.techtown.ryuk.databinding.ActivityTeamsearchBinding
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.techtown.ryuk.models.Team
 import org.techtown.ryuk.models.JsonGetTeams
@@ -61,17 +62,14 @@ class TeamSearchActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         teamClassAdapter = TeamClassAdapter(
             { team -> showJoinDialog(team) },
-            { teamId -> requestTeamJoin(teamId) } // requestTeamJoin 함수 전달
+            { teamId -> requestTeamJoin(teamId) }
         )
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@TeamSearchActivity)
             adapter = teamClassAdapter
-            addItemDecoration(
-                DividerItemDecoration(
-                    this@TeamSearchActivity,
-                    DividerItemDecoration.VERTICAL
-                )
-            )
+            val divider = DividerItemDecoration(this@TeamSearchActivity, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(this@TeamSearchActivity, R.drawable.divider)!!)
+            addItemDecoration(divider)
         }
     }
 
@@ -131,7 +129,7 @@ class TeamSearchActivity : AppCompatActivity() {
 
     private fun getUserIdFromSharedPreferences(): Int {
         val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-        return sharedPreferences.getInt("user_id", 1) // Default value -1 if not found
+        return sharedPreferences.getInt("user_id", 121) // Default value -1 if not found
     }
 
     private fun filterList(query: String) {
