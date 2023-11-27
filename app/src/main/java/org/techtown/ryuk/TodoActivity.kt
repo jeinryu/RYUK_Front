@@ -1,14 +1,23 @@
 package org.techtown.ryuk
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.ClipData
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
+import androidx.core.content.FileProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.techtown.ryuk.databinding.TodoBinding
 import org.techtown.ryuk.interfaces.MissionApiService
@@ -17,9 +26,11 @@ import org.techtown.ryuk.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.*
+
 
 class TodoActivity : Activity() {
     private val retrofit = RetrofitClient.getInstance()
@@ -110,6 +121,7 @@ class TodoActivity : Activity() {
     private fun setupUI(dateNow: String, userId: Int, containers: Map<String, LinearLayoutCompat>, containersPersonal: Map<String, LinearLayoutCompat>) {
         setupSpinner()
         setupAddTaskButton(dateNow, userId, containers, containersPersonal)
+        setupShareButton()
     }
 
     private fun setupSpinner() {
@@ -125,6 +137,76 @@ class TodoActivity : Activity() {
             val type = binding.spinner.selectedItem.toString()
             binding.newTaskContent.text.clear()
             addMission(newTask, type, dateNow, userId, containers, containersPersonal)
+        }
+    }
+
+    private fun screenShot(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.WHITE)
+        view.draw(canvas)
+        return bitmap
+    }
+
+    fun store(bm: Bitmap): File? {
+        val dir = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Screenshots")
+        if (!dir.exists()) {
+            if (!dir.mkdirs()) {
+                Log.e("StoreFunction", "Error creating directory: ${dir.absolutePath}")
+                return null
+            }
+        }
+        val fileName = System.currentTimeMillis().toString().replace(":", ".") + ".png"
+        val file = File(dir, fileName)
+        try {
+            if (!file.exists()) {
+                if (!file.createNewFile()) {
+                    Log.e("StoreFunction", "Error creating file: ${file.absolutePath}")
+                    return null
+                }
+            }
+            val fOut = FileOutputStream(file)
+            bm.compress(Bitmap.CompressFormat.PNG, 85, fOut)
+            fOut.flush()
+            fOut.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return file
+    }
+
+    private fun shareImage(file: File) {
+        val uri: Uri = FileProvider.getUriForFile(applicationContext,
+            BuildConfig.APPLICATION_ID + ".provider", file)
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_SUBJECT, "")
+        intent.putExtra(Intent.EXTRA_TEXT, "")
+        intent.setClipData(ClipData.newRawUri("", uri))
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        val resInfoList: List<ResolveInfo> = this.getPackageManager()
+            .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+        for (resolveInfo in resInfoList) {
+            val packageName = resolveInfo.activityInfo.packageName
+            this.grantUriPermission(
+                packageName,
+                uri,
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+        }
+        try {
+            startActivity(Intent.createChooser(intent, "Share Screenshot"))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(applicationContext, "No App Available", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setupShareButton() {
+        binding.shareButton.setOnClickListener {
+            val bitmap: Bitmap = screenShot(binding.screenshot)
+            store(bitmap)?.let { it1 -> shareImage(it1) }
         }
     }
 
