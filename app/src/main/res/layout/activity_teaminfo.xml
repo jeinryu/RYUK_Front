@@ -4,117 +4,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TeamInfoActivity">
+    tools:context=".TeamInfoActivity"
+    android:background="#FFFFFF">
 
     <!-- 팀원 검색 -->
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/teamName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="팀 이름"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/teamCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="카테고리" />
+
+        <TextView
+            android:id="@+id/teamIntroduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="팀 소개" />
+
+        <TextView
+            android:id="@+id/teamLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="링크" />
+
+        <TextView
+            android:id="@+id/teamStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="시작 날짜" />
+
+        <TextView
+            android:id="@+id/teamEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="종료 날짜" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_member"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:queryHint="팀원 검색"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutCompat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- 팀 이름 -->
-    <TextView
-        android:id="@+id/teamName"
-        android:paddingStart="16dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_members"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="팀 이름"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/search_member"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- 카테고리 -->
-    <TextView
-        android:id="@+id/teamCategory"
-        android:paddingStart="16dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="카테고리"
-        app:layout_constraintTop_toBottomOf="@id/teamName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- 팀 소개 -->
-    <TextView
-        android:id="@+id/teamIntroduce"
-        android:paddingStart="16dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="팀 소개"
-        app:layout_constraintTop_toBottomOf="@id/teamCategory"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/teamLink"
-        android:paddingStart="16dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="링크"
-        app:layout_constraintTop_toBottomOf="@id/teamIntroduce"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-
-    <!-- 활동 기간 -->
-    <TextView
-        android:id="@+id/teamStart"
-        android:paddingStart="16dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="시작 날짜"
-        app:layout_constraintTop_toBottomOf="@id/teamLink"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:id="@+id/teamEnd"
-        android:paddingStart="16dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="종료 날짜 "
-        app:layout_constraintTop_toBottomOf="@id/teamStart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- 팀원 목록 RecyclerView -->
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/recycler_view_members"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/teamEnd"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/btnLeaveTeam"-->
-<!--        tools:listitem="@layout/item_member"/>-->
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnLeaveTeam"
+        tools:listitem="@layout/item_member"/>
 
     <!-- 팀 탈퇴하기 버튼 -->
     <Button
         android:id="@+id/btnLeaveTeam"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:backgroundTint="#BFF055"
         android:text="팀 탈퇴하기"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#BFF055"
-        app:layout_constraintTop_toBottomOf="@id/teamEnd"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/nav_view"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view_members"/>
 
     <!-- 네비게이션 바 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -125,5 +105,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

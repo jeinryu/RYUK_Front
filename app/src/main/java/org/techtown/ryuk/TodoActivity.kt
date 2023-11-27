@@ -2,11 +2,13 @@ package org.techtown.ryuk
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -28,6 +30,7 @@ class TodoActivity : Activity() {
     private var totalMission: Int = 0
     private var completeMission: Int = 0
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = TodoBinding.inflate(layoutInflater)
@@ -85,12 +88,18 @@ class TodoActivity : Activity() {
 
         apiService.checkUserTeam(userId).enqueue(object : Callback<TeamCheckResponse> {
             override fun onResponse(call: Call<TeamCheckResponse>, response: Response<TeamCheckResponse>) {
-                if (response.isSuccessful && response.body()?.status == "ok") {
-                    // 팀이 있으면 TeamInfoActivity로 이동
-                    startActivity(Intent(this@TodoActivity, TeamInfoActivity::class.java))
+                val teamCheckResponse = response.body()
+                if (response.isSuccessful && teamCheckResponse != null) {
+                    if (teamCheckResponse.data.teamId != 0) {
+                        // 팀이 있으면 TeamInfoActivity로 이동
+                        startActivity(Intent(this@TodoActivity, TeamInfoActivity::class.java))
+                    } else {
+                        // 팀이 없으면 TeamSearchActivity로 이동
+                        startActivity(Intent(this@TodoActivity, TeamSearchActivity::class.java))
+                    }
                 } else {
-                    // 팀이 없으면 TeamSearchActivity로 이동
-                    startActivity(Intent(this@TodoActivity, TeamSearchActivity::class.java))
+                    // 응답 실패 처리
+                    Log.e("TeamSearchActivity", "Response not successful")
                 }
             }
 

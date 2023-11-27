@@ -4,6 +4,8 @@ package org.techtown.ryuk.interfaces
 import org.techtown.ryuk.models.LoginRequest
 import org.techtown.ryuk.models.LoginResponse
 import org.techtown.ryuk.models.TeamCheckResponse
+import org.techtown.ryuk.models.TeamMembersResponse
+import org.techtown.ryuk.models.TeamWithdrawResponse
 import org.techtown.ryuk.models.UserResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -26,4 +28,15 @@ interface UserApiService {
     fun checkUserTeam(
         @Query("userId") userId: Int
     ): Call<TeamCheckResponse>
+
+    @GET("/user/get")
+    fun getTeamMembers(
+        @Query("teamId") teamId: Int
+    ): Call<TeamMembersResponse>
+
+    @GET("/user/withdrawTeam")
+    fun withdrawTeam(
+        @Query("userId") userId: Int,
+        @Query("teamId") teamId: Int
+    ): Call<TeamWithdrawResponse>
 }

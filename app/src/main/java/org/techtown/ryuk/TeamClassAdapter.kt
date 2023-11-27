@@ -40,15 +40,15 @@ class TeamClassAdapter(
                               private val onItemClicked: (Team) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Team, onJoinClicked: (Int) -> Unit) { // 이 매개변수 추가
+        fun bind(item: Team, onJoinClicked: (Int) -> Unit) {
             with(binding) {
                 tvName.text = item.name
-                tvCategory.text = item.category
-                tvIntroduce.text = item.introduce
-                tvLink.text = item.link
+                tvCategory.text = "카테고리: ${item.category}"
+                tvIntroduce.text = "소개: ${item.introduce}"
+                tvLink.text = "링크: ${item.link}"
 
-                btnRegisterTeam.setOnClickListener { // 클릭 리스너 설정
-                    onJoinClicked(item.teamId) // 팀 ID와 함께 함수 호출
+                btnRegisterTeam.setOnClickListener {
+                    onJoinClicked(item.teamId)
                 }
 
                 root.setOnClickListener { onItemClicked(item) }
