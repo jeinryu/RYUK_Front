@@ -23,6 +23,8 @@ class DateActivity : AppCompatActivity() {
     private val retrofit = RetrofitClient.getInstance()
     private val missionApiService = retrofit.create(MissionApiService::class.java)
     private lateinit var binding: ActivityDateBinding
+    private var totalMission: Int = 0
+    private var completeMission: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +61,8 @@ class DateActivity : AppCompatActivity() {
             task.text = mission.title
             task.isChecked = mission.is_success == 1
             task.isClickable = false
+            totalMission++
+            completeMission += mission.is_success
             if (mission.from_team == 0) {
                 containersPersonal[mission.mission_type]?.addView(task)
                 containersPersonal[mission.mission_type]?.visibility = View.VISIBLE
@@ -80,6 +84,7 @@ class DateActivity : AppCompatActivity() {
                             paintMission(mission)
                         }
                     }
+                    updateProgress()
                 }
 
                 override fun onFailure(call: Call<JsonGetMissions>, t: Throwable) {
@@ -147,5 +152,11 @@ class DateActivity : AppCompatActivity() {
     private fun getUserIdFromSharedPreferences(): Int {
         val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
         return sharedPreferences.getInt("user_id", 2) // Default value -1 if not found
+    }
+    private fun updateProgress() {
+        Log.d("totalMission", totalMission.toString())
+        Log.d("completeMission", completeMission.toString())
+        if (totalMission == 0) binding.progress.setProgress(0, true) else binding.progress.setProgress(completeMission * 100 / totalMission, true)
+        binding.progressValue.text = completeMission.toString() + "/" + totalMission.toString()
     }
 }

@@ -14,16 +14,29 @@
         android:padding="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/nav_view">
-        <ProgressBar
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:max="100"
-            android:progress="0"
-            android:id="@+id/progress"
-            />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:layout_weight="10"
+                android:progressTint="#BFF055"
+                android:scaleY="5"
+                android:max="100" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="20dp"
+                android:text = "0"
+                android:textAlignment="center"
+                android:id="@+id/progressValue"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
