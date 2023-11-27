@@ -157,8 +157,6 @@ class DateActivity : AppCompatActivity() {
         return sharedPreferences.getInt("user_id", 2) // Default value -1 if not found
     }
     private fun updateProgress() {
-        Log.d("totalMission", totalMission.toString())
-        Log.d("completeMission", completeMission.toString())
         if (totalMission == 0) binding.progress.setProgress(0, true) else binding.progress.setProgress(completeMission * 100 / totalMission, true)
         binding.progressValue.text = completeMission.toString() + "/" + totalMission.toString()
     }

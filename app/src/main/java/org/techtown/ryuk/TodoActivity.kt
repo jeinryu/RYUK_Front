@@ -235,5 +235,6 @@ class TodoActivity : Activity() {
 
     private fun updateProgress() {
         if (totalMission == 0) binding.progress.setProgress(0, true) else binding.progress.setProgress(completeMission * 100 / totalMission, true)
+        binding.progressValue.text = completeMission.toString() + "/" + totalMission.toString()
     }
 }
