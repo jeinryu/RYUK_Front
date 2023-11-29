@@ -9,16 +9,29 @@
 
     <!-- 팀원 검색 -->
 
+    <TextView
+        android:id="@+id/labelTeamInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="팀 정보"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape"
+        android:background="@drawable/shape2"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/labelTeamInfo">
 
         <TextView
             android:id="@+id/teamName"
@@ -32,36 +45,34 @@
             android:id="@+id/teamCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
             android:text="카테고리" />
 
         <TextView
             android:id="@+id/teamIntroduce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
             android:text="팀 소개" />
 
         <TextView
             android:id="@+id/teamLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
             android:text="링크" />
 
         <TextView
-            android:id="@+id/teamStart"
+            android:id="@+id/teamDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="시작 날짜" />
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            android:text="활동기간" />
 
-        <TextView
-            android:id="@+id/teamEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="종료 날짜" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.SearchView

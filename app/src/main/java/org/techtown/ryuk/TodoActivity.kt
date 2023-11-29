@@ -96,18 +96,24 @@ class TodoActivity : Activity() {
 
         apiService.checkUserTeam(userId).enqueue(object : Callback<TeamCheckResponse> {
             override fun onResponse(call: Call<TeamCheckResponse>, response: Response<TeamCheckResponse>) {
-                if (response.isSuccessful && response.body()?.status == "ok") {
-                    // 팀이 있으면 TeamInfoActivity로 이동
-                    startActivity(Intent(this@TodoActivity, TeamInfoActivity::class.java))
+                val teamCheckResponse = response.body()
+                if (response.isSuccessful && teamCheckResponse != null) {
+                    if (teamCheckResponse.data.teamId != 0) {
+                        // 팀이 있으면 TeamInfoActivity로 이동
+                        startActivity(Intent(this@TodoActivity, TeamInfoActivity::class.java))
+                    } else {
+                        // 팀이 없으면 TeamSearchActivity로 이동
+                        startActivity(Intent(this@TodoActivity, TeamSearchActivity::class.java))
+                    }
                 } else {
-                    // 팀이 없으면 TeamSearchActivity로 이동
-                    startActivity(Intent(this@TodoActivity, TeamSearchActivity::class.java))
+                    // 응답 실패 처리
+                    Log.e("TeamSearchActivity", "Response not successful")
                 }
             }
 
             override fun onFailure(call: Call<TeamCheckResponse>, t: Throwable) {
                 // 네트워크 오류 또는 기타 오류 처리
-                Log.e("TeamSearchActivity", "Error: ${t.message}")
+                Log.e("TodoActivity", "Error: ${t.message}")
             }
         })
     }
