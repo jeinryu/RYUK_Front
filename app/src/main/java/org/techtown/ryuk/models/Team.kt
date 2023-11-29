@@ -52,3 +52,17 @@ data class JsonTeamDetailResponse(
     @SerializedName("status") val status: String,
     @SerializedName("data") val data: Team
 )
+
+data class JsonTeamDailyStat(
+    @SerializedName("status") val status: String,
+    @SerializedName("data") val data: List<TeamDailyStat>
+)
+
+data class TeamDailyStat(
+    @SerializedName("user_id") val userId: Int,
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("mission_date") val missionDate: String,
+    @SerializedName("num_mission") val numMission: Int,
+    @SerializedName("num_success") val numSuccess: Int,
+    @SerializedName("percentage") val percentage: Int
+)

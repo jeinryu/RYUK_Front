@@ -14,15 +14,20 @@ import kotlinx.coroutines.withContext
 import org.techtown.ryuk.databinding.ActivityTeaminfoBinding
 import org.techtown.ryuk.interfaces.TeamApiService
 import org.techtown.ryuk.interfaces.UserApiService
+import org.techtown.ryuk.models.JsonTeamDailyStat
 import org.techtown.ryuk.models.JsonTeamDetailResponse
 import org.techtown.ryuk.models.Team
 import org.techtown.ryuk.models.TeamCheckResponse
+import org.techtown.ryuk.models.TeamDailyStat
+import androidx.appcompat.widget.SearchView
 import org.techtown.ryuk.models.TeamMembersResponse
 import org.techtown.ryuk.models.TeamWithdrawResponse
 import org.techtown.ryuk.models.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 class TeamInfoActivity : AppCompatActivity() {
     //...
@@ -37,19 +42,33 @@ class TeamInfoActivity : AppCompatActivity() {
         binding = ActivityTeaminfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.searchMember.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                (binding.recyclerViewMembers.adapter as? MemberClassAdapter)?.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                (binding.recyclerViewMembers.adapter as? MemberClassAdapter)?.filter(newText)
+                return true
+            }
+        })
+
+        initRecyclerView()
+
         // RecyclerView의 LayoutManager 설정
         binding.recyclerViewMembers.layoutManager = LinearLayoutManager(this)
 
         // RecyclerView의 초기 어댑터 설정
         binding.recyclerViewMembers.layoutManager = LinearLayoutManager(this)
-        val initialAdapter = MemberClassAdapter()
+        val userId = getUserIdFromSharedPreferences()
+        val initialAdapter = MemberClassAdapter(userId)
         binding.recyclerViewMembers.adapter = initialAdapter
 
         val dividerItemDecoration = DividerItemDecoration(binding.recyclerViewMembers.context, DividerItemDecoration.VERTICAL)
         binding.recyclerViewMembers.addItemDecoration(dividerItemDecoration)
 
 
-        val userId = getUserIdFromSharedPreferences()
         fetchUserTeamDetails(userId)
         setupBottomNavigationView()
 
@@ -67,6 +86,11 @@ class TeamInfoActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun initRecyclerView() {
+        val userId = getUserIdFromSharedPreferences() // 현재 사용자 ID 가져오기
+        binding.recyclerViewMembers.adapter = MemberClassAdapter(userId)
     }
 
     private suspend fun getCurrentTeamId(userId: Int): Int {
@@ -122,7 +146,8 @@ class TeamInfoActivity : AppCompatActivity() {
                     val teamDetails = teamDetailResponse.data
                     updateUIWithTeamDetails(teamDetails)
                     fetchTeamMembers(teamId)
-                } else {
+                }
+                else {
                     // Handle error
                 }
             }
@@ -198,31 +223,64 @@ class TeamInfoActivity : AppCompatActivity() {
     }
 
     private fun fetchTeamMembers(teamId: Int) {
-        userApiService.getTeamMembers(teamId).enqueue(object : Callback<TeamMembersResponse> {
-            override fun onResponse(
-                call: Call<TeamMembersResponse>,
-                response: Response<TeamMembersResponse>
-            ) {
+        val userId = getUserIdFromSharedPreferences()
+        val dateFormat = SimpleDateFormat("yyyy_MM_dd")
+        val dateNow = LocalDate.now().toString().replace("-", "_")
+
+        teamApiService.getTeamDailyStat(teamId, dateNow).enqueue(object : Callback<JsonTeamDailyStat> {
+            override fun onResponse(call: Call<JsonTeamDailyStat>, response: Response<JsonTeamDailyStat>) {
                 if (response.isSuccessful) {
-                    val members =
-                        response.body()?.members?.filter { it.userId != getUserIdFromSharedPreferences() }
-                    members?.let {
-                        // 여기서 기존 어댑터 대신 새 어댑터를 생성하지 않고 기존 어댑터에 데이터를 업데이트
-                        (binding.recyclerViewMembers.adapter as? MemberClassAdapter)?.submitList(it)
-                    }
-                } else {
-                    // 에러 처리...
+                    val stats = response.body()?.data ?: emptyList()
+                    (binding.recyclerViewMembers.adapter as? MemberClassAdapter)?.submitList(stats, userId)
                 }
             }
 
-            override fun onFailure(call: Call<TeamMembersResponse>, t: Throwable) {
-                // 실패 처리...
+
+            override fun onFailure(call: Call<JsonTeamDailyStat>, t: Throwable) {
+                // Failure handling...
+            }
+        })
+    }
+
+    private fun updateMembersWithStats(members: List<TeamDailyStat>, teamId: Int) {
+        val userId = getUserIdFromSharedPreferences()
+        val dateFormat = SimpleDateFormat("yyyy_MM_dd")
+        val dateNow = LocalDate.now().toString().replace("-", "_")
+
+        teamApiService.getTeamDailyStat(teamId, dateNow).enqueue(object : Callback<JsonTeamDailyStat> {
+            override fun onResponse(call: Call<JsonTeamDailyStat>, response: Response<JsonTeamDailyStat>) {
+                if (response.isSuccessful) {
+                    val stats = response.body()?.data
+                    val updatedMembers = members.map { member ->
+                        val memberStat = stats?.find { it.userId == member.userId }
+                        if (memberStat != null) {
+                            // 새로운 TeamDailyStat 객체 생성
+                            TeamDailyStat(
+                                userId = memberStat.userId,
+                                nickname = memberStat.nickname,
+                                missionDate = memberStat.missionDate,
+                                numMission = memberStat.numMission,
+                                numSuccess = memberStat.numSuccess,
+                                percentage = memberStat.percentage
+                            )
+                        } else {
+                            member // 변경 없는 경우 기존 멤버 반환
+                        }
+                    }
+                    (binding.recyclerViewMembers.adapter as? MemberClassAdapter)?.submitList(updatedMembers, userId)
+                }
+            }
+
+
+            override fun onFailure(call: Call<JsonTeamDailyStat>, t: Throwable) {
+                // Failure handling...
             }
         })
     }
 
     private fun updateRecyclerViewWithMembers(members: List<User>) {
-        val adapter = MemberClassAdapter()
+        val userId = getUserIdFromSharedPreferences()
+        val adapter = MemberClassAdapter(userId)
         binding.recyclerViewMembers.adapter = adapter
     }
 }

@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:queryHint="팀/카테고리 검색"/>
+        app:queryHint="팀/카테고리/소개 검색"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

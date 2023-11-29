@@ -48,13 +48,13 @@
             android:textSize="18sp"
             android:textColor="#666666" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_number"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="팀원 수"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textColor="#666666" />-->
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="팀원 수"
+            android:textSize="18sp"
+            android:textColor="#666666" />
 
     </LinearLayout>
 
