@@ -16,6 +16,7 @@ import org.techtown.ryuk.models.Team
 import org.techtown.ryuk.models.JsonGetTeams
 import org.techtown.ryuk.interfaces.TeamApiService
 import org.techtown.ryuk.models.JsonTeamJoinResponse
+import org.techtown.ryuk.models.JsonTeamMemberCountResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,13 +48,16 @@ class TeamSearchActivity : AppCompatActivity() {
                     startActivity(Intent(this, TodoActivity::class.java))
                     true
                 }
+
                 R.id.navigation_team -> {
                     true
                 }
+
                 R.id.navigation_mypage -> {
                     startActivity(Intent(this, MypageActivity::class.java))
                     true
                 }
+
                 else -> false
             }
         }
@@ -67,8 +71,14 @@ class TeamSearchActivity : AppCompatActivity() {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@TeamSearchActivity)
             adapter = teamClassAdapter
-            val divider = DividerItemDecoration(this@TeamSearchActivity, DividerItemDecoration.VERTICAL)
-            divider.setDrawable(ContextCompat.getDrawable(this@TeamSearchActivity, R.drawable.divider)!!)
+            val divider =
+                DividerItemDecoration(this@TeamSearchActivity, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(
+                ContextCompat.getDrawable(
+                    this@TeamSearchActivity,
+                    R.drawable.divider
+                )!!
+            )
             addItemDecoration(divider)
         }
     }
@@ -143,11 +153,37 @@ class TeamSearchActivity : AppCompatActivity() {
 
     private fun loadTeams() {
         val teamApiService = RetrofitClient.getInstance().create(TeamApiService::class.java)
+
+        teamApiService.getTeamMemberCount().enqueue(object : Callback<JsonTeamMemberCountResponse> {
+            override fun onResponse(
+                call: Call<JsonTeamMemberCountResponse>,
+                response: Response<JsonTeamMemberCountResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val memberCounts =
+                        response.body()?.data?.associateBy({ it.teamId }, { it.teamMemberNum })
+                            ?: emptyMap()
+                    fetchAllTeams(memberCounts)
+                }
+            }
+
+            override fun onFailure(call: Call<JsonTeamMemberCountResponse>, t: Throwable) {
+                Log.e("TeamSearchActivity", "Network Error: ${t.message}")
+                fetchAllTeams(emptyMap())
+            }
+        })
+    }
+
+    private fun fetchAllTeams(memberCounts: Map<Int, Int>) {
+        val teamApiService = RetrofitClient.getInstance().create(TeamApiService::class.java)
         teamApiService.getAllTeams().enqueue(object : Callback<JsonGetTeams> {
             override fun onResponse(call: Call<JsonGetTeams>, response: Response<JsonGetTeams>) {
                 if (response.isSuccessful) {
                     response.body()?.let { jsonGetTeams ->
                         fullTeamList = jsonGetTeams.teams
+                        teamClassAdapter =
+                            TeamClassAdapter(::showJoinDialog, ::requestTeamJoin, memberCounts)
+                        binding.recyclerView.adapter = teamClassAdapter
                         teamClassAdapter.submitList(jsonGetTeams.teams)
                     }
                 } else {

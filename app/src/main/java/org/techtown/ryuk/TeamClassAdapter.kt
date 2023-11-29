@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import org.techtown.ryuk.databinding.ItemMemberBinding
 import org.techtown.ryuk.databinding.ItemTeamBinding
 import org.techtown.ryuk.models.Team
 
 class TeamClassAdapter(
     private val onItemClicked: (Team) -> Unit,
-    private val onJoinClicked: (Int) -> Unit // 이 부분 추가
+    private val onJoinClicked: (Int) -> Unit,
+    private val teamMemberCounts: Map<Int, Int> = emptyMap()
 ) : ListAdapter<Team, TeamClassAdapter.TeamClassViewHolder>(TeamClassCallback) {
     private var fullList: List<Team> = listOf()
 
@@ -33,19 +35,22 @@ class TeamClassAdapter(
     }
 
     override fun onBindViewHolder(holder: TeamClassViewHolder, position: Int) {
-        holder.bind(getItem(position), onJoinClicked) // onJoinClicked 함수 전달
+        val team = getItem(position)
+        val memberCount = teamMemberCounts[team.teamId] ?: 0
+        holder.bind(team, memberCount, onJoinClicked)
     }
 
     class TeamClassViewHolder(private val binding: ItemTeamBinding,
                               private val onItemClicked: (Team) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Team, onJoinClicked: (Int) -> Unit) {
+        fun bind(item: Team, memberCount: Int, onJoinClicked: (Int) -> Unit) {
             with(binding) {
                 tvName.text = item.name
                 tvCategory.text = "카테고리: ${item.category}"
                 tvIntroduce.text = "소개: ${item.introduce}"
                 tvLink.text = "링크: ${item.link}"
+                tvNumber.text = "팀원 수: $memberCount"
 
                 btnRegisterTeam.setOnClickListener {
                     onJoinClicked(item.teamId)
@@ -55,7 +60,6 @@ class TeamClassAdapter(
             }
         }
     }
-
     companion object {
         private val TeamClassCallback = object : DiffUtil.ItemCallback<Team>() {
             override fun areItemsTheSame(oldItem: Team, newItem: Team): Boolean {

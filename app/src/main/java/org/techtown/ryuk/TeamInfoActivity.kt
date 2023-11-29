@@ -167,7 +167,7 @@ class TeamInfoActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         // 팀 탈퇴 성공 처리
-                        Toast.makeText(this@TeamInfoActivity, "탈퇴요청완료.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@TeamInfoActivity, "탈퇴 요청 완료.", Toast.LENGTH_SHORT).show()
                     } else {
                         // 에러 처리
                         Toast.makeText(this@TeamInfoActivity, "팀 탈퇴 실패", Toast.LENGTH_SHORT).show()

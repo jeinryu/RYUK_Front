@@ -35,4 +35,5 @@ interface TeamApiService {
         @Query("team_id") teamId: Int,
         @Query("date") date: String
     ): Call<JsonTeamDailyStat>
+
 }
