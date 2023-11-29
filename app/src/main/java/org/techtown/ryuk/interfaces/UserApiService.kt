@@ -14,7 +14,7 @@ interface UserApiService {
     // 로그인
     @GET("/user/login")
     fun loginUser(
-        @Query("login_id") loginId: String,
+        @Query("loginId") loginId: String,
         @Query("password") password: String
     ): Call<LoginResponse>
 

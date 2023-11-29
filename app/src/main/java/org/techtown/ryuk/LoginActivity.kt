@@ -2,6 +2,7 @@ package org.techtown.ryuk
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.techtown.ryuk.databinding.ActivityLoginBinding
@@ -29,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser(loginId: String, password: String) {
+        Log.d("LoginActivity", "Trying to login with ID: $loginId, Password: $password")
         apiService.loginUser(loginId, password).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val loginResponse = response.body()
