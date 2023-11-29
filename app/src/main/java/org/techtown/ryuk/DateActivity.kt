@@ -117,7 +117,6 @@ class DateActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_mypage -> {
-                    startActivity(Intent(this, MypageActivity::class.java))
                     true
                 }
                 else -> false
