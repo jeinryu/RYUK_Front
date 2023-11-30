@@ -51,6 +51,8 @@ class TeamClassAdapter(
                 tvIntroduce.text = "소개: ${item.introduce}"
                 tvLink.text = "링크: ${item.link}"
                 tvNumber.text = "팀원 수: $memberCount"
+                tvStart.text = "시작일: ${item.startDay}"
+                tvEnd.text = "종료일: ${item.endDay}"
 
                 btnRegisterTeam.setOnClickListener {
                     onJoinClicked(item.teamId)

@@ -56,6 +56,22 @@
             android:textSize="18sp"
             android:textColor="#666666" />
 
+        <TextView
+            android:id="@+id/tv_Start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="시작일"
+            android:textSize="18sp"
+            android:textColor="#666666" />
+        <TextView
+            android:id="@+id/tv_End"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="종료일"
+            android:textSize="18sp"
+            android:textColor="#666666" />
+
+
     </LinearLayout>
 
     <Button

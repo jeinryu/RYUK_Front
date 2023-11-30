@@ -20,6 +20,7 @@ import org.techtown.ryuk.models.Team
 import org.techtown.ryuk.models.TeamCheckResponse
 import org.techtown.ryuk.models.TeamDailyStat
 import androidx.appcompat.widget.SearchView
+import org.techtown.ryuk.models.JsonTeamMemberCountResponse
 import org.techtown.ryuk.models.TeamMembersResponse
 import org.techtown.ryuk.models.TeamWithdrawResponse
 import org.techtown.ryuk.models.User
@@ -145,14 +146,30 @@ class TeamInfoActivity : AppCompatActivity() {
                 if (response.isSuccessful && teamDetailResponse?.status == "ok") {
                     val teamDetails = teamDetailResponse.data
                     updateUIWithTeamDetails(teamDetails)
+                    fetchTeamMemberCount(teamDetails.teamId)
                     fetchTeamMembers(teamId)
-                }
-                else {
+                } else {
                     // Handle error
                 }
             }
 
             override fun onFailure(call: Call<JsonTeamDetailResponse>, t: Throwable) {
+                // Handle failure
+            }
+        })
+    }
+
+    private fun fetchTeamMemberCount(teamId: Int) {
+        teamApiService.getTeamMemberCount().enqueue(object : Callback<JsonTeamMemberCountResponse> {
+            override fun onResponse(call: Call<JsonTeamMemberCountResponse>, response: Response<JsonTeamMemberCountResponse>) {
+                if (response.isSuccessful) {
+                    val memberCounts = response.body()?.data?.associate { it.teamId to it.teamMemberNum }
+                    val teamMemberCount = memberCounts?.get(teamId) ?: 0
+                    updateTeamMemberCountUI(teamMemberCount)
+                }
+            }
+
+            override fun onFailure(call: Call<JsonTeamMemberCountResponse>, t: Throwable) {
                 // Handle failure
             }
         })
@@ -206,11 +223,16 @@ class TeamInfoActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateTeamMemberCountUI(memberCount: Int) {
+        binding.teammember.text = "팀원 수 : $memberCount"
+    }
+
     private fun updateUIWithTeamDetails(teamDetails: Team) {
         val teamName = teamDetails.name // 예시 값
         val teamCategory = teamDetails.category  // 예시 값
         val teamIntroduce = teamDetails.introduce  // 예시 값
         val teamLink = teamDetails.link  // 예시 값
+        val teammember = 2
         val teamDuration = "활동기간 : ${teamDetails.startDay} ~ ${teamDetails.endDay}"
 
         // 각 TextView에 팀 정보 설정
@@ -219,6 +241,7 @@ class TeamInfoActivity : AppCompatActivity() {
         binding.teamIntroduce.text = "팀 소개 : $teamIntroduce"
         binding.teamLink.text = "링크 : $teamLink"
         binding.teamDuration.text = teamDuration
+        binding.teammember.text = "팀원 수 : ${teammember}"
 
     }
 
